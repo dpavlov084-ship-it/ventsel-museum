@@ -80,7 +80,7 @@ export default function HallLobby({ visited, navigateTo, onOpenQr }) {
               <div className="relative aspect-[3/4] rounded-[22px] overflow-hidden bg-gradient-to-b from-amber-100 to-stone-200">
                 {!imgError ? (
                   <img
-                    src="/ventsel.jpg"
+                    src="/ventsel.jpg.webp"
                     alt="Константин Николаевич Вентцель"
                     onError={() => setImgError(true)}
                     className="w-full h-full object-cover object-top grayscale contrast-110 sepia-[0.18]"
