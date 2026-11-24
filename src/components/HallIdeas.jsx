@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
-import { Sun, Users, Orbit, BookOpen, ChevronDown, Sparkles } from 'lucide-react';
-import { BOOKS } from '../data/museumData';
+import { Sun, Users, Orbit, BookOpen, ChevronDown, Sparkles, Scale, BookMarked } from 'lucide-react';
+import { BOOKS, DECLARATION_COMPARE, TERMS_GLOSSARY } from '../data/museumData';
 
 const PILLARS = [
   {
@@ -28,6 +28,8 @@ const PILLARS = [
 
 export default function HallIdeas() {
   const [openBook, setOpenBook] = useState(0);
+  const [selectedArticle, setSelectedArticle] = useState(0);
+  const [selectedTerm, setSelectedTerm] = useState(0);
 
   return (
     <div className="space-y-8">
@@ -36,7 +38,7 @@ export default function HallIdeas() {
           <span>Зал 02</span>
         </div>
         <h2 className="text-2xl sm:text-4xl font-bold tracking-tight text-stone-950 mt-2">
-          Идеи и ключевые труды
+          Идеи, первоисточники и понятия
         </h2>
         <p className="text-stone-600 text-sm sm:text-base mt-1">
           Коперниканский переворот: ребенок становится солнцем, вокруг которого вращается образование.
@@ -61,6 +63,114 @@ export default function HallIdeas() {
             </div>
           );
         })}
+      </div>
+
+      <div className="liquid-glass rounded-[32px] p-6 sm:p-8 space-y-5">
+        <div className="flex flex-wrap items-center justify-between gap-2">
+          <div className="flex items-center gap-2.5">
+            <div className="w-10 h-10 rounded-2xl bg-amber-500/15 text-amber-800 flex items-center justify-center">
+              <Scale className="w-5 h-5" />
+            </div>
+            <div>
+              <h3 className="font-bold text-lg text-stone-950">
+                Сравнительный анализ Деклараций
+              </h3>
+              <p className="text-xs text-stone-500">
+                Манифест Вентцеля (1917) против Декларации ООН (1959)
+              </p>
+            </div>
+          </div>
+          <span className="px-3 py-1 rounded-full bg-stone-900 text-amber-300 text-xs font-bold">
+            {DECLARATION_COMPARE[selectedArticle].article}
+          </span>
+        </div>
+
+        <div className="flex flex-wrap gap-2">
+          {DECLARATION_COMPARE.map((item, idx) => (
+            <button
+              key={item.topic}
+              onClick={() => setSelectedArticle(idx)}
+              className={`px-4 py-2 rounded-full text-xs font-semibold transition cursor-pointer ${
+                selectedArticle === idx
+                  ? 'bg-stone-950 text-white shadow-sm'
+                  : 'bg-white/70 hover:bg-white text-stone-700 border border-white'
+              }`}
+            >
+              {item.topic}
+            </button>
+          ))}
+        </div>
+
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-4 pt-1">
+          <div className="bg-amber-500/10 border border-amber-500/20 rounded-2xl p-5 space-y-2">
+            <div className="text-[11px] font-bold uppercase tracking-wider text-amber-900">
+              К. Н. Вентцель (Сентябрь 1917 г.)
+            </div>
+            <p className="text-sm text-stone-900 leading-relaxed font-medium">
+              «{DECLARATION_COMPARE[selectedArticle].ventsel1917}»
+            </p>
+          </div>
+
+          <div className="bg-white/75 border border-white rounded-2xl p-5 space-y-2">
+            <div className="text-[11px] font-bold uppercase tracking-wider text-stone-500">
+              Резолюция ООН (Ноябрь 1959 г.)
+            </div>
+            <p className="text-sm text-stone-700 leading-relaxed">
+              {DECLARATION_COMPARE[selectedArticle].un1959}
+            </p>
+          </div>
+        </div>
+      </div>
+
+      <div className="liquid-glass rounded-[32px] p-6 sm:p-8 space-y-5">
+        <div className="flex items-center gap-2.5">
+          <div className="w-10 h-10 rounded-2xl bg-indigo-500/15 text-indigo-700 flex items-center justify-center">
+            <BookMarked className="w-5 h-5" />
+          </div>
+          <div>
+            <h3 className="font-bold text-lg text-stone-950">
+              Понятийный аппарат и компаративистика
+            </h3>
+            <p className="text-xs text-stone-500">
+              Авторские термины Вентцеля в сравнении с Л. Н. Толстым и М. Монтессори
+            </p>
+          </div>
+        </div>
+
+        <div className="flex flex-wrap gap-2">
+          {TERMS_GLOSSARY.map((item, idx) => (
+            <button
+              key={item.term}
+              onClick={() => setSelectedTerm(idx)}
+              className={`px-4 py-2 rounded-full text-xs font-semibold transition cursor-pointer ${
+                selectedTerm === idx
+                  ? 'bg-indigo-950 text-white shadow-sm'
+                  : 'bg-white/70 hover:bg-white text-stone-700 border border-white'
+              }`}
+            >
+              {item.term}
+            </button>
+          ))}
+        </div>
+
+        <div className="bg-white/75 border border-white rounded-2xl p-5 space-y-3">
+          <div>
+            <div className="text-[11px] font-bold uppercase tracking-wider text-indigo-800">
+              Определение по первоисточнику
+            </div>
+            <p className="text-sm sm:text-base text-stone-900 font-medium mt-1 leading-relaxed">
+              {TERMS_GLOSSARY[selectedTerm].definition}
+            </p>
+          </div>
+          <div className="pt-2 border-t border-stone-200/70">
+            <div className="text-[11px] font-bold uppercase tracking-wider text-stone-500">
+              Отличие от других концепций
+            </div>
+            <p className="text-xs sm:text-sm text-stone-700 mt-1 leading-relaxed">
+              {TERMS_GLOSSARY[selectedTerm].contrast}
+            </p>
+          </div>
+        </div>
       </div>
 
       <div className="space-y-3">
