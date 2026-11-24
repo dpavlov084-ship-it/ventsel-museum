@@ -6,7 +6,7 @@ export default function HallPersonal() {
     <div className="space-y-8">
       <div className="px-1">
         <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-sky-500/15 text-sky-800 text-xs font-bold">
-          <span>Зал 05</span>
+          <span>Зал 04</span>
         </div>
         <h2 className="text-2xl sm:text-4xl font-bold tracking-tight text-stone-950 mt-2">
           Личный взгляд экскурсовода

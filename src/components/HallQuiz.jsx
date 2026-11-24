@@ -11,7 +11,9 @@ import {
   Scale,
   Briefcase,
   AlertTriangle,
-  CheckCircle2
+  CheckCircle2,
+  Eye,
+  EyeOff
 } from 'lucide-react';
 import {
   QUIZ_QUESTIONS,
@@ -32,6 +34,7 @@ export default function HallQuiz() {
 
   // Состояния для кейсов
   const [caseIdx, setCaseIdx] = useState(0);
+  const [showCaseAnswer, setShowCaseAnswer] = useState(false);
 
   // Состояния для симулятора дня
   const [simStep, setSimStep] = useState(0);
@@ -68,6 +71,11 @@ export default function HallQuiz() {
     setSelectedAnswer(null);
     setScore(0);
     setQuizFinished(false);
+  };
+
+  const handleSelectCase = (idx) => {
+    setCaseIdx(idx);
+    setShowCaseAnswer(false);
   };
 
   const handleSimSelect = (idx) => {
@@ -357,7 +365,7 @@ export default function HallQuiz() {
                   Педагогический практикум
                 </h3>
                 <p className="text-xs text-stone-500">
-                  Решение школьных конфликтов по методу К. Н. Вентцеля
+                  Обсудите ситуацию с группой, затем откройте разбор
                 </p>
               </div>
             </div>
@@ -366,7 +374,7 @@ export default function HallQuiz() {
               {PEDAGOGICAL_CASES.map((_, idx) => (
                 <button
                   key={idx}
-                  onClick={() => setCaseIdx(idx)}
+                  onClick={() => handleSelectCase(idx)}
                   className={`px-3.5 py-1.5 rounded-full text-xs font-bold transition cursor-pointer ${
                     caseIdx === idx
                       ? 'bg-stone-950 text-amber-300'
@@ -379,39 +387,60 @@ export default function HallQuiz() {
             </div>
           </div>
 
-          <div className="bg-stone-900 text-white rounded-2xl p-5">
-            <div className="text-[11px] font-bold uppercase tracking-wider text-amber-400 mb-1">
+          <div className="bg-stone-900 text-white rounded-2xl p-5 sm:p-6">
+            <div className="text-[11px] font-bold uppercase tracking-wider text-amber-400 mb-1.5">
               Проблемная ситуация
             </div>
-            <p className="text-sm sm:text-base leading-relaxed font-medium">
+            <p className="text-sm sm:text-lg leading-relaxed font-medium">
               {activeCase.situation}
             </p>
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-            <div className="bg-rose-500/10 border border-rose-500/20 rounded-2xl p-5 space-y-2">
-              <div className="flex items-center gap-1.5 text-xs font-bold uppercase tracking-wider text-rose-800">
-                <AlertTriangle className="w-4 h-4" />
-                <span>Авторитарный путь (тупик)</span>
-              </div>
-              <p className="text-sm text-stone-800 leading-relaxed">
-                {activeCase.authoritarian}
-              </p>
-            </div>
-
-            <div className="bg-emerald-500/10 border border-emerald-500/20 rounded-2xl p-5 space-y-2">
-              <div className="flex items-center gap-1.5 text-xs font-bold uppercase tracking-wider text-emerald-800">
-                <CheckCircle2 className="w-4 h-4" />
-                <span>Решение по Вентцелю</span>
-              </div>
-              <p className="text-sm text-stone-900 font-medium leading-relaxed">
-                {activeCase.ventselWay}
-              </p>
-              <div className="text-[11px] text-emerald-900/80 pt-1">
-                Опора: {activeCase.sourceNote}
-              </div>
-            </div>
+          <div className="flex justify-center">
+            <button
+              onClick={() => setShowCaseAnswer(!showCaseAnswer)}
+              className="inline-flex items-center gap-2 px-6 py-3 rounded-full bg-stone-950 hover:bg-stone-800 text-white text-xs sm:text-sm font-semibold transition active:scale-95 shadow-md cursor-pointer"
+            >
+              {showCaseAnswer ? (
+                <>
+                  <EyeOff className="w-4 h-4 text-amber-400" />
+                  <span>Скрыть решение</span>
+                </>
+              ) : (
+                <>
+                  <Eye className="w-4 h-4 text-amber-400" />
+                  <span>Показать разбор по Вентцелю</span>
+                </>
+              )}
+            </button>
           </div>
+
+          {showCaseAnswer && (
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4 pt-1">
+              <div className="bg-rose-500/10 border border-rose-500/20 rounded-2xl p-5 space-y-2">
+                <div className="flex items-center gap-1.5 text-xs font-bold uppercase tracking-wider text-rose-800">
+                  <AlertTriangle className="w-4 h-4" />
+                  <span>Авторитарный путь (тупик)</span>
+                </div>
+                <p className="text-sm text-stone-800 leading-relaxed">
+                  {activeCase.authoritarian}
+                </p>
+              </div>
+
+              <div className="bg-emerald-500/10 border border-emerald-500/20 rounded-2xl p-5 space-y-2">
+                <div className="flex items-center gap-1.5 text-xs font-bold uppercase tracking-wider text-emerald-800">
+                  <CheckCircle2 className="w-4 h-4" />
+                  <span>Решение по Вентцелю</span>
+                </div>
+                <p className="text-sm text-stone-900 font-medium leading-relaxed">
+                  {activeCase.ventselWay}
+                </p>
+                <div className="text-[11px] text-emerald-900/80 pt-1">
+                  Опора: {activeCase.sourceNote}
+                </div>
+              </div>
+            </div>
+          )}
         </div>
       )}
 
