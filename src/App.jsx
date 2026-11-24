@@ -55,8 +55,8 @@ export default function App() {
         {activeHall === 'bio' && <HallTimeline />}
         {activeHall === 'ideas' && <HallIdeas />}
         {activeHall === 'spirit' && <HallQuotes />}
-        {activeHall === 'modern' && <HallModern />}
         {activeHall === 'personal' && <HallPersonal />}
+        {activeHall === 'modern' && <HallModern />}
         {activeHall === 'quiz' && <HallQuiz />}
 
         <div className="mt-10 flex items-center justify-between gap-3">
