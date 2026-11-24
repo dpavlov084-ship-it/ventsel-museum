@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { CheckCircle2, ChevronRight, Award, RotateCcw } from 'lucide-react';
+import { Check, ChevronRight, Award, RotateCcw, Ticket } from 'lucide-react';
 import { QUIZ_QUESTIONS } from '../data/museumData';
 
 export default function HallQuiz() {
@@ -34,40 +34,58 @@ export default function HallQuiz() {
   };
 
   return (
-    <div className="space-y-6">
-      <div className="border-b border-amber-200 pb-4">
-        <span className="text-xs font-bold uppercase tracking-wider text-amber-800">Зал 6 из 6</span>
-        <h2 className="text-2xl sm:text-3xl font-serif font-bold text-stone-900 mt-1">
-          Проверочный квиз для посетителей музея
+    <div className="space-y-8">
+      <div className="px-1">
+        <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-purple-500/15 text-purple-800 text-xs font-bold">
+          <span>Зал 06</span>
+        </div>
+        <h2 className="text-2xl sm:text-4xl font-bold tracking-tight text-stone-950 mt-2">
+          Интерактивный квиз
         </h2>
-        <p className="text-stone-600 mt-1">
-          Ответьте на 5 вопросов по материалам экскурсии и получите именной билет почетного гостя.
+        <p className="text-stone-600 text-sm sm:text-base mt-1">
+          Проверьте знания по материалам экскурсии и получите именной билет в стиле Apple Wallet.
         </p>
       </div>
 
       {!quizFinished ? (
-        <div className="bg-white rounded-2xl p-6 sm:p-8 border border-amber-200/90 shadow-sm space-y-6">
-          <div className="flex items-center justify-between text-xs font-bold text-stone-500">
-            <span>Вопрос {quizStep + 1} из {QUIZ_QUESTIONS.length}</span>
-            <span>Счет: {score}</span>
+        <div className="liquid-glass rounded-[34px] p-6 sm:p-8 space-y-6">
+          <div className="flex items-center justify-between">
+            <div className="flex gap-1.5">
+              {QUIZ_QUESTIONS.map((_, i) => (
+                <span
+                  key={i}
+                  className={`h-1.5 rounded-full transition-all ${
+                    i === quizStep
+                      ? 'w-8 bg-stone-950'
+                      : i < quizStep
+                      ? 'w-4 bg-amber-600'
+                      : 'w-4 bg-stone-300'
+                  }`}
+                />
+              ))}
+            </div>
+            <span className="text-xs font-bold text-stone-500">
+              Счет: {score} / {QUIZ_QUESTIONS.length}
+            </span>
           </div>
 
-          <h3 className="text-lg sm:text-xl font-serif font-bold text-stone-900">
+          <h3 className="text-lg sm:text-2xl font-bold text-stone-950 leading-snug">
             {QUIZ_QUESTIONS[quizStep].q}
           </h3>
 
-          <div className="space-y-3">
+          <div className="space-y-2.5">
             {QUIZ_QUESTIONS[quizStep].options.map((opt, idx) => {
               const isSelected = selectedAnswer === idx;
               const isCorrect = idx === QUIZ_QUESTIONS[quizStep].correct;
-              let btnStyle = 'bg-amber-50/40 border-amber-200 hover:border-amber-700 text-stone-800 cursor-pointer';
+
+              let rowStyle = 'bg-white/65 hover:bg-white border-white text-stone-900 cursor-pointer active:scale-[0.99]';
               if (selectedAnswer !== null) {
                 if (isCorrect) {
-                  btnStyle = 'bg-emerald-50 border-emerald-600 text-emerald-950 font-semibold';
+                  rowStyle = 'bg-emerald-500/15 border-emerald-500/40 text-emerald-950 font-semibold';
                 } else if (isSelected) {
-                  btnStyle = 'bg-rose-50 border-rose-500 text-rose-950';
+                  rowStyle = 'bg-rose-500/15 border-rose-500/40 text-rose-950';
                 } else {
-                  btnStyle = 'bg-stone-50 border-stone-200 text-stone-400';
+                  rowStyle = 'bg-white/30 border-transparent text-stone-400';
                 }
               }
 
@@ -76,11 +94,18 @@ export default function HallQuiz() {
                   key={opt}
                   onClick={() => handleAnswer(idx)}
                   disabled={selectedAnswer !== null}
-                  className={`w-full text-left p-4 rounded-xl border transition flex items-center justify-between ${btnStyle}`}
+                  className={`w-full text-left p-4 rounded-2xl border transition-all flex items-center justify-between gap-3 ${rowStyle}`}
                 >
-                  <span className="text-sm sm:text-base">{opt}</span>
+                  <div className="flex items-center gap-3">
+                    <span className="w-7 h-7 rounded-full bg-stone-900/5 text-xs font-bold flex items-center justify-center shrink-0">
+                      {String.fromCharCode(65 + idx)}
+                    </span>
+                    <span className="text-sm sm:text-base">{opt}</span>
+                  </div>
                   {selectedAnswer !== null && isCorrect && (
-                    <CheckCircle2 className="w-5 h-5 text-emerald-600 shrink-0" />
+                    <div className="w-6 h-6 rounded-full bg-emerald-600 text-white flex items-center justify-center shrink-0">
+                      <Check className="w-3.5 h-3.5" />
+                    </div>
                   )}
                 </button>
               );
@@ -88,69 +113,88 @@ export default function HallQuiz() {
           </div>
 
           {selectedAnswer !== null && (
-            <div className="bg-amber-50 border border-amber-200 rounded-xl p-4 space-y-3">
+            <div className="bg-amber-500/10 border border-amber-500/20 rounded-2xl p-4 sm:p-5 space-y-4">
               <p className="text-sm text-stone-800 leading-relaxed">
-                <span className="font-bold text-amber-950">Пояснение: </span>
+                <span className="font-bold text-amber-950">Комментарий: </span>
                 {QUIZ_QUESTIONS[quizStep].explanation}
               </p>
               <button
                 onClick={nextQuestion}
-                className="inline-flex items-center gap-1.5 px-4 py-2 rounded-lg bg-amber-900 hover:bg-amber-800 text-amber-50 text-sm font-medium transition cursor-pointer"
+                className="inline-flex items-center gap-1.5 px-5 py-2.5 rounded-full bg-stone-950 hover:bg-stone-800 text-white text-sm font-semibold transition active:scale-95 cursor-pointer"
               >
-                <span>{quizStep + 1 < QUIZ_QUESTIONS.length ? 'Следующий вопрос' : 'Завершить и получить билет'}</span>
-                <ChevronRight className="w-4 h-4" />
+                <span>{quizStep + 1 < QUIZ_QUESTIONS.length ? 'Дальше' : 'Открыть билет'}</span>
+                <ChevronRight className="w-4 h-4 text-amber-400" />
               </button>
             </div>
           )}
         </div>
       ) : (
-        <div className="bg-gradient-to-br from-amber-50 to-stone-100 rounded-2xl p-6 sm:p-8 border-2 border-amber-800/30 shadow-md space-y-6 text-center">
-          <div className="w-14 h-14 rounded-full bg-amber-900 text-amber-50 flex items-center justify-center mx-auto shadow">
-            <Award className="w-8 h-8" />
-          </div>
+        <div className="max-w-md mx-auto space-y-5">
+          <div className="liquid-glass-dark text-white rounded-[36px] overflow-hidden shadow-2xl">
+            <div className="p-6 sm:p-7 space-y-5">
+              <div className="flex items-center justify-between">
+                <div className="flex items-center gap-2">
+                  <Ticket className="w-4 h-4 text-amber-400" />
+                  <span className="text-[11px] font-bold uppercase tracking-widest text-amber-300">
+                    Museum Pass
+                  </span>
+                </div>
+                <span className="px-2.5 py-0.5 rounded-full bg-white/10 text-[11px] font-bold">
+                  {score} из {QUIZ_QUESTIONS.length}
+                </span>
+              </div>
 
-          <div className="space-y-1">
-            <div className="text-xs font-bold uppercase tracking-widest text-amber-800">
-              Билет почетного посетителя музея
+              <div>
+                <div className="text-xs text-stone-400">Почетный посетитель</div>
+                <div className="text-2xl font-bold tracking-tight text-white mt-0.5">
+                  {visitorName.trim() || 'Гость экспозиции'}
+                </div>
+              </div>
+
+              <div className="grid grid-cols-2 gap-3 pt-2 border-t border-white/10 text-xs">
+                <div>
+                  <div className="text-stone-400">Выставка</div>
+                  <div className="font-semibold text-stone-100 mt-0.5">К. Н. Вентцель</div>
+                </div>
+                <div>
+                  <div className="text-stone-400">Статус</div>
+                  <div className="font-semibold text-emerald-400 mt-0.5">Пройдено</div>
+                </div>
+              </div>
             </div>
-            <h3 className="text-2xl font-serif font-bold text-stone-900">
-              Экскурсия успешно пройдена!
-            </h3>
-            <p className="text-stone-600 text-sm">
-              Ваш результат: <span className="font-bold text-stone-900">{score} из {QUIZ_QUESTIONS.length}</span> правильных ответов
-            </p>
+
+            <div className="relative flex items-center justify-between px-4">
+              <div className="w-5 h-5 rounded-full bg-[#f5f3ef] -ml-6" />
+              <div className="border-t border-dashed border-white/20 w-full" />
+              <div className="w-5 h-5 rounded-full bg-[#f5f3ef] -mr-6" />
+            </div>
+
+            <div className="p-6 bg-white/5 flex items-center justify-between gap-4">
+              <div className="text-xs text-stone-300 leading-relaxed">
+                Антология гуманной педагогики. Издательский Дом Шалвы Амонашвили.
+              </div>
+              <div className="w-11 h-11 rounded-2xl bg-amber-400 text-stone-950 flex items-center justify-center shrink-0">
+                <Award className="w-6 h-6" />
+              </div>
+            </div>
           </div>
 
-          <div className="max-w-sm mx-auto">
+          <div className="space-y-3 text-center">
             <input
               type="text"
               value={visitorName}
               onChange={(e) => setVisitorName(e.target.value)}
-              placeholder="Введите ваше имя для билета..."
-              className="w-full px-4 py-2.5 rounded-xl border border-amber-300 bg-white text-center text-sm focus:outline-none focus:border-amber-800"
+              placeholder="Впишите свое имя в билет..."
+              className="w-full px-5 py-3 rounded-full liquid-glass text-center text-sm font-medium focus:outline-none focus:ring-2 focus:ring-stone-900"
             />
+            <button
+              onClick={resetQuiz}
+              className="inline-flex items-center gap-1.5 px-4 py-2 rounded-full bg-white/70 hover:bg-white text-stone-700 text-xs font-semibold transition cursor-pointer"
+            >
+              <RotateCcw className="w-3.5 h-3.5" />
+              <span>Пройти заново</span>
+            </button>
           </div>
-
-          <div className="max-w-md mx-auto bg-white rounded-xl p-5 border border-dashed border-amber-800 text-left space-y-2 shadow-sm">
-            <div className="flex justify-between items-center text-xs text-stone-500 border-b border-stone-100 pb-2">
-              <span>ПЕДАГОГИЧЕСКИЙ МУЗЕЙ К. Н. ВЕНТЦЕЛЯ</span>
-              <span>№ 1917-2026</span>
-            </div>
-            <div className="font-serif font-bold text-lg text-stone-900">
-              {visitorName.trim() || 'Почетный гость экскурсии'}
-            </div>
-            <div className="text-xs text-stone-600 leading-relaxed">
-              Подтверждает изучение наследия К. Н. Вентцеля по серии «Антология гуманной педагогики».
-            </div>
-          </div>
-
-          <button
-            onClick={resetQuiz}
-            className="inline-flex items-center gap-1.5 px-4 py-2 rounded-lg bg-stone-200 hover:bg-stone-300 text-stone-800 text-xs font-semibold transition cursor-pointer"
-          >
-            <RotateCcw className="w-3.5 h-3.5" />
-            <span>Пройти квиз заново</span>
-          </button>
         </div>
       )}
     </div>

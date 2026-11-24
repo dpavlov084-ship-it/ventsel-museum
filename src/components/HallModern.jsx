@@ -1,84 +1,98 @@
 import React from 'react';
+import { ArrowRight, ShieldCheck, Compass, UserCheck } from 'lucide-react';
+
+const COMPARISONS = [
+  {
+    past: 'Отказ от единого шаблона («сколько детей — столько систем»)',
+    present: 'Индивидуальные образовательные траектории, тьюторство и адаптивные платформы под темп каждого ученика.'
+  },
+  {
+    past: 'Ребенок сам выбирает дело, а знания рождаются из практики',
+    present: 'Проектное обучение, интерактивные симуляторы и геймификация, включающие внутреннюю мотивацию вместо зубрежки.'
+  },
+  {
+    past: 'Субъектность ребенка и «Декларация прав ребенка» (1917)',
+    present: 'Школьное самоуправление, защита личных границ и антибуллинговые программы в образовательной среде.'
+  },
+  {
+    past: 'Космическое самосознание и единство с природой',
+    present: 'Экологическое мышление и глобальная ответственность за будущее планеты в эпоху технологических рисков.'
+  }
+];
 
 export default function HallModern() {
   return (
-    <div className="space-y-6">
-      <div className="border-b border-amber-200 pb-4">
-        <span className="text-xs font-bold uppercase tracking-wider text-amber-800">Зал 4 из 6</span>
-        <h2 className="text-2xl sm:text-3xl font-serif font-bold text-stone-900 mt-1">
-          Актуальность для современности и уроки наследия
+    <div className="space-y-8">
+      <div className="px-1">
+        <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-emerald-500/15 text-emerald-800 text-xs font-bold">
+          <span>Зал 04</span>
+        </div>
+        <h2 className="text-2xl sm:text-4xl font-bold tracking-tight text-stone-950 mt-2">
+          Актуальность в 2026 году
         </h2>
-        <p className="text-stone-600 mt-1">
-          Почему идеи столетней давности прямо отвечают на вызовы школы и психологии в 2026 году.
+        <p className="text-stone-600 text-sm sm:text-base mt-1">
+          Как идеи столетней давности работают в современной школе и психологии.
         </p>
       </div>
 
-      <div className="bg-white rounded-2xl border border-amber-200/90 overflow-hidden shadow-xs">
-        <div className="overflow-x-auto">
-          <table className="w-full text-left border-collapse">
-            <thead>
-              <tr className="bg-amber-100/70 border-b border-amber-200 text-xs font-bold uppercase text-amber-950">
-                <th className="p-4">Идея К. Н. Вентцеля (1906–1925)</th>
-                <th className="p-4">Воплощение в образовании 2026 года</th>
-              </tr>
-            </thead>
-            <tbody className="divide-y divide-amber-100 text-sm">
-              <tr>
-                <td className="p-4 font-medium text-stone-900">
-                  Отказ от единого шаблона и конвейера («сколько детей — столько систем»)
-                </td>
-                <td className="p-4 text-stone-700">
-                  Индивидуальные образовательные траектории, тьюторство, адаптивные цифровые платформы под темп каждого ученика.
-                </td>
-              </tr>
-              <tr>
-                <td className="p-4 font-medium text-stone-900">
-                  Ребенок сам выбирает материал под свои интересы, а знания рождаются из дела
-                </td>
-                <td className="p-4 text-stone-700">
-                  Проектное обучение, интерактивные симуляторы и геймификация, которые включают внутреннюю мотивацию подростков вместо зубрежки.
-                </td>
-              </tr>
-              <tr>
-                <td className="p-4 font-medium text-stone-900">
-                  Субъектность ребенка и право на собственное мнение в «Декларации прав ребенка»
-                </td>
-                <td className="p-4 text-stone-700">
-                  Школьное самоуправление, защита личных границ, отказ от авторитарного давления и буллинга в образовательной среде.
-                </td>
-              </tr>
-              <tr>
-                <td className="p-4 font-medium text-stone-900">
-                  Космическое самосознание и единство человека с природой
-                </td>
-                <td className="p-4 text-stone-700">
-                  Экологическое мышление, глобальная ответственность за будущее планеты в эпоху технологических рисков.
-                </td>
-              </tr>
-            </tbody>
-          </table>
-        </div>
+      <div className="space-y-3">
+        {COMPARISONS.map((item, idx) => (
+          <div key={idx} className="liquid-glass rounded-[28px] p-5 sm:p-6 grid grid-cols-1 md:grid-cols-[1fr_auto_1fr] items-center gap-4">
+            <div className="bg-amber-500/10 rounded-2xl p-4 border border-amber-500/15">
+              <div className="text-[10px] font-bold uppercase tracking-wider text-amber-800 mb-1">
+                Идея Вентцеля (1906–1925)
+              </div>
+              <div className="text-sm font-semibold text-stone-900 leading-snug">
+                {item.past}
+              </div>
+            </div>
+
+            <div className="hidden md:flex w-8 h-8 rounded-full bg-stone-900 text-white items-center justify-center shrink-0">
+              <ArrowRight className="w-4 h-4 text-amber-400" />
+            </div>
+
+            <div className="bg-white/75 rounded-2xl p-4 border border-white">
+              <div className="text-[10px] font-bold uppercase tracking-wider text-emerald-700 mb-1">
+                Практика 2026 года
+              </div>
+              <div className="text-sm text-stone-700 leading-snug">
+                {item.present}
+              </div>
+            </div>
+          </div>
+        ))}
       </div>
 
       <div className="space-y-3">
-        <h3 className="text-lg font-serif font-bold text-stone-900">Три главных урока наследия Вентцеля</h3>
+        <h3 className="text-lg font-bold text-stone-900 px-2">Три главных урока наследия</h3>
         <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-          <div className="bg-amber-50 border border-amber-200 rounded-xl p-5 space-y-1.5">
-            <div className="text-lg font-serif font-bold text-amber-950">Урок 1. Без насилия</div>
-            <p className="text-sm text-stone-800 leading-relaxed">
-              Принуждение рождает только лицемерие и протест. Искренний интерес ученика возникает там, где есть право выбора.
+          <div className="liquid-glass rounded-[28px] p-5 space-y-2">
+            <div className="w-9 h-9 rounded-xl bg-amber-500/15 text-amber-700 flex items-center justify-center">
+              <ShieldCheck className="w-5 h-5" />
+            </div>
+            <div className="font-bold text-base text-stone-950">1. Без насилия</div>
+            <p className="text-xs sm:text-sm text-stone-600 leading-relaxed">
+              Принуждение рождает лицемерие и протест. Искренний интерес ученика появляется там, где есть право выбора.
             </p>
           </div>
-          <div className="bg-amber-50 border border-amber-200 rounded-xl p-5 space-y-1.5">
-            <div className="text-lg font-serif font-bold text-amber-950">Урок 2. Поиск важнее ответа</div>
-            <p className="text-sm text-stone-800 leading-relaxed">
-              Не спешите давать готовый ответ. Помогите человеку самому пройти путь исследования и совершить собственное открытие.
+
+          <div className="liquid-glass rounded-[28px] p-5 space-y-2">
+            <div className="w-9 h-9 rounded-xl bg-sky-500/15 text-sky-700 flex items-center justify-center">
+              <Compass className="w-5 h-5" />
+            </div>
+            <div className="font-bold text-base text-stone-950">2. Поиск важнее ответа</div>
+            <p className="text-xs sm:text-sm text-stone-600 leading-relaxed">
+              Не спешите давать готовый шаблон. Помогите человеку самому пройти путь исследования и совершить открытие.
             </p>
           </div>
-          <div className="bg-amber-50 border border-amber-200 rounded-xl p-5 space-y-1.5">
-            <div className="text-lg font-serif font-bold text-amber-950">Урок 3. Начни с себя</div>
-            <p className="text-sm text-stone-800 leading-relaxed">
-              Главный инструмент педагога и психолога — его собственная личность. Невозможно научить свободе, оставаясь несвободным внутри.
+
+          <div className="liquid-glass rounded-[28px] p-5 space-y-2">
+            <div className="w-9 h-9 rounded-xl bg-emerald-500/15 text-emerald-700 flex items-center justify-center">
+              <UserCheck className="w-5 h-5" />
+            </div>
+            <div className="font-bold text-base text-stone-950">3. Начни с себя</div>
+            <p className="text-xs sm:text-sm text-stone-600 leading-relaxed">
+              Главный инструмент психолога и педагога — его собственная личность. Нельзя научить свободе, оставаясь несвободным внутри.
             </p>
           </div>
         </div>

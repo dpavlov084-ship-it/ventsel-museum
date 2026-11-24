@@ -31,7 +31,12 @@ export default function App() {
   const currentHallIndex = HALLS.findIndex((h) => h.id === activeHall);
 
   return (
-    <div className="min-h-screen flex flex-col bg-stone-50 text-stone-900">
+    <div className="min-h-screen flex flex-col relative selection:bg-amber-500/20">
+      <div className="fixed inset-0 -z-10 overflow-hidden pointer-events-none">
+        <div className="absolute top-[-10%] left-[-10%] w-[45vw] h-[45vw] rounded-full bg-amber-200/35 blur-[100px]" />
+        <div className="absolute bottom-[-10%] right-[-10%] w-[50vw] h-[50vw] rounded-full bg-orange-200/30 blur-[110px]" />
+      </div>
+
       <Navbar
         activeHall={activeHall}
         visited={visited}
@@ -39,7 +44,7 @@ export default function App() {
         onOpenQr={() => setShowQrModal(true)}
       />
 
-      <main className="flex-1 max-w-5xl w-full mx-auto px-4 py-8">
+      <main className="flex-1 max-w-4xl w-full mx-auto px-4 pt-6 pb-14">
         {activeHall === 'hall' && (
           <HallLobby
             visited={visited}
@@ -54,11 +59,11 @@ export default function App() {
         {activeHall === 'personal' && <HallPersonal />}
         {activeHall === 'quiz' && <HallQuiz />}
 
-        <div className="mt-10 pt-6 border-t border-amber-200/80 flex items-center justify-between">
+        <div className="mt-10 flex items-center justify-between gap-3">
           {currentHallIndex > 0 ? (
             <button
               onClick={() => navigateTo(HALLS[currentHallIndex - 1].id)}
-              className="inline-flex items-center gap-1.5 px-4 py-2 rounded-xl bg-white border border-amber-300 hover:bg-amber-50 text-stone-800 text-sm font-medium transition cursor-pointer"
+              className="liquid-glass inline-flex items-center gap-1.5 px-5 py-3 rounded-full hover:bg-white text-stone-800 text-xs sm:text-sm font-semibold transition active:scale-95 cursor-pointer"
             >
               <ChevronLeft className="w-4 h-4" />
               <span>{HALLS[currentHallIndex - 1].short}</span>
@@ -70,17 +75,17 @@ export default function App() {
           {currentHallIndex < HALLS.length - 1 ? (
             <button
               onClick={() => navigateTo(HALLS[currentHallIndex + 1].id)}
-              className="inline-flex items-center gap-1.5 px-5 py-2.5 rounded-xl bg-amber-900 hover:bg-amber-800 text-amber-50 text-sm font-medium transition shadow-sm cursor-pointer"
+              className="inline-flex items-center gap-1.5 px-6 py-3 rounded-full bg-stone-950 hover:bg-stone-800 text-white text-xs sm:text-sm font-semibold transition active:scale-95 shadow-lg shadow-stone-950/15 cursor-pointer"
             >
               <span>Далее: {HALLS[currentHallIndex + 1].short}</span>
-              <ChevronRight className="w-4 h-4" />
+              <ChevronRight className="w-4 h-4 text-amber-400" />
             </button>
           ) : (
             <button
               onClick={() => navigateTo('hall')}
-              className="inline-flex items-center gap-1.5 px-5 py-2.5 rounded-xl bg-stone-800 hover:bg-stone-700 text-white text-sm font-medium transition cursor-pointer"
+              className="inline-flex items-center gap-1.5 px-6 py-3 rounded-full bg-stone-950 hover:bg-stone-800 text-white text-xs sm:text-sm font-semibold transition active:scale-95 cursor-pointer"
             >
-              <span>Вернуться в главный холл</span>
+              <span>В главный холл</span>
             </button>
           )}
         </div>
@@ -88,34 +93,39 @@ export default function App() {
 
       {showQrModal && (
         <div
-          className="fixed inset-0 z-50 bg-black/60 backdrop-blur-sm flex items-center justify-center p-4"
+          className="fixed inset-0 z-50 bg-stone-950/50 backdrop-blur-md flex items-center justify-center p-4"
           onClick={() => setShowQrModal(false)}
         >
           <div
-            className="bg-white rounded-2xl max-w-sm w-full p-6 text-center space-y-4 shadow-xl border border-amber-200"
+            className="liquid-glass rounded-[36px] max-w-sm w-full p-7 text-center space-y-5 shadow-2xl"
             onClick={(e) => e.stopPropagation()}
           >
-            <h3 className="font-serif font-bold text-lg text-stone-900">
-              QR-код виртуального музея
-            </h3>
-            <p className="text-xs text-stone-600 leading-relaxed">
-              Покажите этот экран преподавателю и одногруппникам, чтобы они открыли экскурсию на своих телефонах.
-            </p>
-            <div className="bg-amber-50/60 p-4 rounded-xl border border-amber-200 inline-block">
+            <div className="space-y-1">
+              <h3 className="font-bold text-xl tracking-tight text-stone-950">
+                Поделиться музеем
+              </h3>
+              <p className="text-xs text-stone-600 leading-relaxed">
+                Наведите камеру смартфона, чтобы открыть экскурсию на своем устройстве.
+              </p>
+            </div>
+
+            <div className="bg-white p-4 rounded-[28px] inline-block shadow-sm">
               <img
                 src={`https://api.qrserver.com/v1/create-qr-code/?size=220x220&data=${encodeURIComponent(
                   currentUrl || 'https://vercel.com'
                 )}`}
-                alt="QR код сайта"
-                className="w-48 h-48 mx-auto"
+                alt="QR код"
+                className="w-44 h-44 mx-auto"
               />
             </div>
-            <div className="text-[11px] text-stone-400 break-all px-2">{currentUrl}</div>
+
+            <div className="text-[11px] text-stone-500 break-all px-2">{currentUrl}</div>
+
             <button
               onClick={() => setShowQrModal(false)}
-              className="w-full py-2.5 rounded-xl bg-amber-900 text-amber-50 text-sm font-medium hover:bg-amber-800 transition cursor-pointer"
+              className="w-full py-3 rounded-full bg-stone-950 text-white text-sm font-semibold hover:bg-stone-800 transition active:scale-95 cursor-pointer"
             >
-              Закрыть
+              Готово
             </button>
           </div>
         </div>

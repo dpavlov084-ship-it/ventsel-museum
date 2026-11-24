@@ -1,97 +1,169 @@
 import React, { useState } from 'react';
-import { Lightbulb, Play, ExternalLink, AlertCircle } from 'lucide-react';
+import { Lightbulb, Play, ArrowUpRight, Sparkles, ChevronDown, ChevronLeft, ChevronRight } from 'lucide-react';
 import { TIMELINE } from '../data/museumData';
 
 export default function HallTimeline() {
   const [selectedIdx, setSelectedIdx] = useState(0);
-  const current = TIMELINE[selectedIdx];
 
   return (
-    <div className="space-y-6">
-      <div className="border-b border-amber-200 pb-4">
-        <span className="text-xs font-bold uppercase tracking-wider text-amber-800">Зал 1 из 6</span>
-        <h2 className="text-2xl sm:text-3xl font-serif font-bold text-stone-900 mt-1">
-          Жизненный путь с остановками на педагогике и психологии
+    <div className="space-y-8">
+      <div className="px-1">
+        <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-amber-500/15 text-amber-800 text-xs font-bold">
+          <span>Зал 01</span>
+        </div>
+        <h2 className="text-2xl sm:text-4xl font-bold tracking-tight text-stone-950 mt-2">
+          Жизненный путь
         </h2>
-        <p className="text-stone-600 mt-1">
-          От народовольца в одиночной камере до создателя «Дома свободного ребенка» и философа Космоса.
+        <p className="text-stone-600 text-sm sm:text-base mt-1">
+          От народовольца в одиночной камере до основателя «Дома свободного ребенка» и философа Космоса.
         </p>
       </div>
 
-      <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-2">
-        {TIMELINE.map((item, idx) => (
-          <button
-            key={item.year}
-            onClick={() => setSelectedIdx(idx)}
-            className={`p-3 rounded-xl border text-left transition cursor-pointer ${
-              selectedIdx === idx
-                ? 'bg-amber-900 text-amber-50 border-amber-900 shadow-sm'
-                : 'bg-white text-stone-800 border-amber-200 hover:border-amber-600'
-            }`}
-          >
-            <div className={`text-xs font-semibold ${selectedIdx === idx ? 'text-amber-300' : 'text-amber-800'}`}>
-              {item.tag}
+      <div className="space-y-3">
+        {TIMELINE.map((item, idx) => {
+          const isOpen = selectedIdx === idx;
+          const isLast = idx === TIMELINE.length - 1;
+
+          return (
+            <div key={item.year} className="flex items-stretch gap-3 sm:gap-5">
+              <div className="flex flex-col items-center pt-5">
+                <button
+                  type="button"
+                  onClick={() => setSelectedIdx(idx)}
+                  className={`w-6 h-6 rounded-full flex items-center justify-center shrink-0 transition-all cursor-pointer ${
+                    isOpen
+                      ? 'bg-stone-950 ring-4 ring-amber-400/40 scale-110'
+                      : 'bg-white border-2 border-amber-600 hover:scale-110'
+                  }`}
+                  aria-label={item.year}
+                >
+                  <span className={`w-2 h-2 rounded-full ${isOpen ? 'bg-amber-400' : 'bg-amber-600'}`} />
+                </button>
+                {!isLast && (
+                  <div className="w-[2px] flex-1 bg-gradient-to-b from-amber-500/60 to-amber-200/40 mt-2" />
+                )}
+              </div>
+
+              <div
+                onClick={() => setSelectedIdx(idx)}
+                className={`flex-1 rounded-[28px] transition-all duration-300 cursor-pointer ${
+                  isOpen
+                    ? 'liquid-glass p-5 sm:p-7 shadow-lg'
+                    : 'bg-white/50 hover:bg-white/80 border border-white/70 p-4 sm:p-5'
+                }`}
+              >
+                <div className="flex items-center justify-between gap-3">
+                  <div className="flex flex-wrap items-center gap-2">
+                    <span
+                      className={`px-3 py-1 rounded-full text-xs font-bold ${
+                        isOpen ? 'bg-stone-950 text-amber-300' : 'bg-amber-500/15 text-amber-900'
+                      }`}
+                    >
+                      {item.year}
+                    </span>
+                    <span className="text-xs font-semibold text-stone-500 uppercase tracking-wider">
+                      {item.tag}
+                    </span>
+                  </div>
+                  <ChevronDown
+                    className={`w-4 h-4 text-stone-400 transition-transform duration-300 shrink-0 ${
+                      isOpen ? 'rotate-180 text-stone-900' : ''
+                    }`}
+                  />
+                </div>
+
+                <h3
+                  className={`font-bold tracking-tight text-stone-950 mt-2 ${
+                    isOpen ? 'text-xl sm:text-2xl' : 'text-base sm:text-lg'
+                  }`}
+                >
+                  {item.title}
+                </h3>
+
+                {isOpen && (
+                  <div className="mt-4 space-y-4" onClick={(e) => e.stopPropagation()}>
+                    <p className="text-stone-700 leading-relaxed text-sm sm:text-base">
+                      {item.text}
+                    </p>
+
+                    <div className="bg-amber-500/10 border border-amber-500/20 rounded-2xl p-4 flex gap-3">
+                      <div className="w-8 h-8 rounded-xl bg-amber-500/20 text-amber-800 flex items-center justify-center shrink-0">
+                        <Lightbulb className="w-4 h-4" />
+                      </div>
+                      <div>
+                        <div className="text-[11px] font-bold uppercase tracking-wider text-amber-900">
+                          Архивная деталь
+                        </div>
+                        <p className="text-xs sm:text-sm text-stone-800 mt-0.5 leading-relaxed">
+                          {item.fact}
+                        </p>
+                      </div>
+                    </div>
+
+                    <div className="flex items-center justify-between pt-2 border-t border-stone-200/60">
+                      <span className="text-xs font-medium text-stone-400">
+                        Этап {idx + 1} из {TIMELINE.length}
+                      </span>
+                      <div className="flex gap-2">
+                        <button
+                          type="button"
+                          disabled={idx === 0}
+                          onClick={() => setSelectedIdx(idx - 1)}
+                          className="p-2 rounded-full bg-white/80 hover:bg-white disabled:opacity-30 text-stone-800 border border-stone-200 transition cursor-pointer disabled:cursor-default"
+                          aria-label="Предыдущий этап"
+                        >
+                          <ChevronLeft className="w-4 h-4" />
+                        </button>
+                        <button
+                          type="button"
+                          disabled={isLast}
+                          onClick={() => setSelectedIdx(idx + 1)}
+                          className="p-2 rounded-full bg-stone-950 hover:bg-stone-800 disabled:opacity-30 text-white transition cursor-pointer disabled:cursor-default"
+                          aria-label="Следующий этап"
+                        >
+                          <ChevronRight className="w-4 h-4 text-amber-400" />
+                        </button>
+                      </div>
+                    </div>
+                  </div>
+                )}
+              </div>
             </div>
-            <div className="font-serif font-bold text-sm sm:text-base mt-0.5">{item.year}</div>
-          </button>
-        ))}
+          );
+        })}
       </div>
 
-      <div className="bg-white rounded-2xl p-6 sm:p-8 border border-amber-200/90 shadow-sm space-y-5">
-        <div className="flex flex-wrap items-center justify-between gap-2">
-          <span className="px-3 py-1 rounded-full bg-amber-100 text-amber-950 text-xs font-bold">
-            {current.year} — {current.tag}
-          </span>
-          <span className="text-xs text-stone-500">
-            Экспонат {selectedIdx + 1} из {TIMELINE.length}
-          </span>
-        </div>
+      <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+        <a
+          href="https://www.youtube.com/results?search_query=Константин+Николаевич+Вентцель+свободное+воспитание"
+          target="_blank"
+          rel="noreferrer"
+          className="liquid-glass rounded-[28px] p-5 flex items-center justify-between gap-4 hover:bg-white/85 transition group"
+        >
+          <div className="flex items-center gap-3.5">
+            <div className="w-11 h-11 rounded-2xl bg-rose-500/15 text-rose-600 flex items-center justify-center shrink-0">
+              <Play className="w-5 h-5 fill-current" />
+            </div>
+            <div>
+              <div className="font-semibold text-sm text-stone-900">Видеоархив и лекции</div>
+              <div className="text-xs text-stone-500 mt-0.5">Подборка материалов на YouTube</div>
+            </div>
+          </div>
+          <div className="w-8 h-8 rounded-full bg-stone-100 group-hover:bg-stone-900 group-hover:text-white flex items-center justify-center transition shrink-0">
+            <ArrowUpRight className="w-4 h-4" />
+          </div>
+        </a>
 
-        <h3 className="text-xl sm:text-2xl font-serif font-bold text-stone-900">
-          {current.title}
-        </h3>
-
-        <p className="text-stone-700 leading-relaxed text-base">
-          {current.text}
-        </p>
-
-        <div className="bg-amber-50 border border-amber-200 rounded-xl p-4 flex gap-3">
-          <Lightbulb className="w-5 h-5 text-amber-800 shrink-0 mt-0.5" />
+        <div className="liquid-glass rounded-[28px] p-5 flex items-center gap-3.5">
+          <div className="w-11 h-11 rounded-2xl bg-amber-500/15 text-amber-700 flex items-center justify-center shrink-0">
+            <Sparkles className="w-5 h-5" />
+          </div>
           <div>
-            <div className="text-xs font-bold uppercase text-amber-950">Интересный факт из архива</div>
-            <p className="text-sm text-stone-800 mt-1">{current.fact}</p>
+            <div className="font-semibold text-sm text-stone-900">Вне политических лагерей</div>
+            <div className="text-xs text-stone-500 mt-0.5 leading-relaxed">
+              Его идеи не приняли ни монархисты, ни большевики из-за запрета на любое давление на ребенка.
+            </div>
           </div>
-        </div>
-      </div>
-
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-        <div className="bg-white rounded-xl p-5 border border-amber-200/80 space-y-2">
-          <div className="flex items-center gap-2 text-amber-900 font-bold text-sm">
-            <Play className="w-4 h-4" />
-            <span>Видеоматериалы и лекции</span>
-          </div>
-          <p className="text-xs text-stone-600 leading-relaxed">
-            Подборка видеолекций историков педагогики о «Доме свободного ребенка» и судьбе К. Н. Вентцеля.
-          </p>
-          <a
-            href="https://www.youtube.com/results?search_query=Константин+Николаевич+Вентцель+свободное+воспитание"
-            target="_blank"
-            rel="noreferrer"
-            className="inline-flex items-center gap-1.5 text-xs font-semibold text-amber-800 hover:underline pt-1"
-          >
-            <span>Открыть видеоматериалы</span>
-            <ExternalLink className="w-3.5 h-3.5" />
-          </a>
-        </div>
-
-        <div className="bg-white rounded-xl p-5 border border-amber-200/80 space-y-2">
-          <div className="flex items-center gap-2 text-amber-900 font-bold text-sm">
-            <AlertCircle className="w-4 h-4" />
-            <span>Человек вне эпох</span>
-          </div>
-          <p className="text-xs text-stone-600 leading-relaxed">
-            Вентцеля одновременно критиковали монархисты, большевики, церковь, либералы и даже толстовцы за бескомпромиссную защиту свободы ребенка от любой идеологии.
-          </p>
         </div>
       </div>
     </div>
