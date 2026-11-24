@@ -1,5 +1,14 @@
 import React, { useState } from 'react';
-import { Lightbulb, Play, ArrowUpRight, Sparkles, ChevronDown, ChevronLeft, ChevronRight } from 'lucide-react';
+import {
+  Lightbulb,
+  Play,
+  ArrowUpRight,
+  Sparkles,
+  ChevronDown,
+  ChevronLeft,
+  ChevronRight,
+  BookOpen
+} from 'lucide-react';
 import { TIMELINE } from '../data/museumData';
 
 export default function HallTimeline() {
@@ -133,36 +142,59 @@ export default function HallTimeline() {
         })}
       </div>
 
-      <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-        <a
-          href="https://www.youtube.com/results?search_query=Константин+Николаевич+Вентцель+свободное+воспитание"
-          target="_blank"
-          rel="noreferrer"
-          className="liquid-glass rounded-[28px] p-5 flex items-center justify-between gap-4 hover:bg-white/85 transition group"
-        >
-          <div className="flex items-center gap-3.5">
-            <div className="w-11 h-11 rounded-2xl bg-rose-500/15 text-rose-600 flex items-center justify-center shrink-0">
-              <Play className="w-5 h-5 fill-current" />
+      <div className="space-y-3">
+        <h3 className="text-lg font-bold text-stone-900 px-2">Видеолекции и архив</h3>
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+          <a
+            href="https://rutube.ru/search/?query=%D0%9A%D0%BE%D0%BD%D1%81%D1%82%D0%B0%D0%BD%D1%82%D0%B8%D0%BD+%D0%92%D0%B5%D0%BD%D1%82%D1%86%D0%B5%D0%BB%D1%8C+%D1%81%D0%B2%D0%BE%D0%B1%D0%BE%D0%B4%D0%BD%D0%BE%D0%B5+%D0%B2%D0%BE%D1%81%D0%BF%D0%B8%D1%82%D0%B0%D0%BD%D0%B8%D0%B5"
+            target="_blank"
+            rel="noreferrer"
+            className="liquid-glass rounded-[28px] p-5 flex items-center justify-between gap-4 hover:bg-white/85 transition group"
+          >
+            <div className="flex items-center gap-3.5">
+              <div className="w-11 h-11 rounded-2xl bg-sky-500/15 text-sky-700 flex items-center justify-center shrink-0">
+                <Play className="w-5 h-5 fill-current" />
+              </div>
+              <div>
+                <div className="font-semibold text-sm text-stone-900">Видеолекции на RuTube</div>
+                <div className="text-xs text-stone-500 mt-0.5">Работает в РФ без замедлений</div>
+              </div>
             </div>
-            <div>
-              <div className="font-semibold text-sm text-stone-900">Видеоархив и лекции</div>
-              <div className="text-xs text-stone-500 mt-0.5">Подборка материалов на YouTube</div>
+            <div className="w-8 h-8 rounded-full bg-stone-100 group-hover:bg-stone-900 group-hover:text-white flex items-center justify-center transition shrink-0">
+              <ArrowUpRight className="w-4 h-4" />
             </div>
-          </div>
-          <div className="w-8 h-8 rounded-full bg-stone-100 group-hover:bg-stone-900 group-hover:text-white flex items-center justify-center transition shrink-0">
-            <ArrowUpRight className="w-4 h-4" />
-          </div>
-        </a>
+          </a>
 
-        <div className="liquid-glass rounded-[28px] p-5 flex items-center gap-3.5">
-          <div className="w-11 h-11 rounded-2xl bg-amber-500/15 text-amber-700 flex items-center justify-center shrink-0">
-            <Sparkles className="w-5 h-5" />
-          </div>
-          <div>
-            <div className="font-semibold text-sm text-stone-900">Вне политических лагерей</div>
-            <div className="text-xs text-stone-500 mt-0.5 leading-relaxed">
-              Его идеи не приняли ни монархисты, ни большевики из-за запрета на любое давление на ребенка.
+          <a
+            href="https://cyberleninka.ru/search?q=%D0%9A.%D0%9D.%20%D0%92%D0%B5%D0%BD%D1%82%D1%86%D0%B5%D0%BB%D1%8C"
+            target="_blank"
+            rel="noreferrer"
+            className="liquid-glass rounded-[28px] p-5 flex items-center justify-between gap-4 hover:bg-white/85 transition group"
+          >
+            <div className="flex items-center gap-3.5">
+              <div className="w-11 h-11 rounded-2xl bg-emerald-500/15 text-emerald-700 flex items-center justify-center shrink-0">
+                <BookOpen className="w-5 h-5" />
+              </div>
+              <div>
+                <div className="font-semibold text-sm text-stone-900">Статьи в КиберЛенинке</div>
+                <div className="text-xs text-stone-500 mt-0.5">Научные разборы и диссертации</div>
+              </div>
             </div>
+            <div className="w-8 h-8 rounded-full bg-stone-100 group-hover:bg-stone-900 group-hover:text-white flex items-center justify-center transition shrink-0">
+              <ArrowUpRight className="w-4 h-4" />
+            </div>
+          </a>
+        </div>
+      </div>
+
+      <div className="liquid-glass rounded-[28px] p-5 flex items-center gap-3.5">
+        <div className="w-11 h-11 rounded-2xl bg-amber-500/15 text-amber-700 flex items-center justify-center shrink-0">
+          <Sparkles className="w-5 h-5" />
+        </div>
+        <div>
+          <div className="font-semibold text-sm text-stone-900">Вне политических лагерей</div>
+          <div className="text-xs text-stone-500 mt-0.5 leading-relaxed">
+            Его идеи не приняли ни монархисты, ни большевики из-за запрета на любое давление на ребенка.
           </div>
         </div>
       </div>
