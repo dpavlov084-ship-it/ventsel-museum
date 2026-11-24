@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import {
   Compass,
   ArrowUpRight,
@@ -25,50 +25,88 @@ const HALL_STYLE = {
 };
 
 export default function HallLobby({ visited, navigateTo, onOpenQr }) {
+  const [imgError, setImgError] = useState(false);
+
   return (
     <div className="space-y-8">
-      <div className="relative overflow-hidden rounded-[36px] liquid-glass p-7 sm:p-11">
+      <div className="relative overflow-hidden rounded-[36px] liquid-glass p-6 sm:p-10">
         <div className="absolute -top-24 -right-24 w-72 h-72 bg-amber-300/30 rounded-full blur-3xl pointer-events-none" />
         <div className="absolute -bottom-24 -left-24 w-72 h-72 bg-orange-200/40 rounded-full blur-3xl pointer-events-none" />
 
-        <div className="relative z-10 max-w-2xl space-y-5">
-          <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-white/80 border border-white text-stone-700 text-xs font-semibold shadow-2xs">
-            <Compass className="w-3.5 h-3.5 text-amber-600" />
-            <span>Цифровой архив гуманной педагогики</span>
-          </div>
+        <div className="relative z-10 grid grid-cols-1 lg:grid-cols-[1fr_270px] gap-8 items-center">
+          <div className="space-y-5">
+            <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-white/80 border border-white text-stone-700 text-xs font-semibold shadow-2xs">
+              <Compass className="w-3.5 h-3.5 text-amber-600" />
+              <span>Цифровой архив гуманной педагогики</span>
+            </div>
 
-          <h1 className="text-3xl sm:text-5xl font-bold tracking-tight text-stone-950 leading-[1.1]">
-            Константин Вентцель
-            <span className="block text-amber-800/80 font-medium text-2xl sm:text-3xl mt-1">
-              Философия свободного ребенка
-            </span>
-          </h1>
+            <h1 className="text-3xl sm:text-5xl font-bold tracking-tight text-stone-950 leading-[1.1]">
+              Константин Вентцель
+              <span className="block text-amber-800/80 font-medium text-2xl sm:text-3xl mt-1">
+                Философия свободного ребенка
+              </span>
+            </h1>
 
-          <p className="text-stone-600 text-base sm:text-lg leading-relaxed">
-            Автор первой в мире «Декларации прав ребенка» (1917), основатель школы без оценок и создатель космической педагогики.
-          </p>
-
-          <div className="bg-white/60 backdrop-blur-md rounded-2xl p-4 border border-white/80">
-            <p className="text-stone-800 italic text-sm sm:text-base">
-              «Пускай это утопия, пускай это мечта! Попытаемся все-таки ее осуществить!»
+            <p className="text-stone-600 text-base sm:text-lg leading-relaxed">
+              Автор первой в мире «Декларации прав ребенка» (1917), основатель школы без оценок и создатель космической педагогики.
             </p>
+
+            <div className="bg-white/60 backdrop-blur-md rounded-2xl p-4 border border-white/80">
+              <p className="text-stone-800 italic text-sm sm:text-base">
+                «Пускай это утопия, пускай это мечта! Попытаемся все-таки ее осуществить!»
+              </p>
+            </div>
+
+            <div className="pt-1 flex flex-wrap items-center gap-3">
+              <button
+                onClick={() => navigateTo('bio')}
+                className="inline-flex items-center gap-2 px-6 py-3.5 rounded-full bg-stone-950 hover:bg-stone-800 text-white font-semibold text-sm transition active:scale-95 shadow-lg shadow-stone-950/15 cursor-pointer"
+              >
+                <span>Начать экскурсию</span>
+                <ArrowUpRight className="w-4 h-4 text-amber-400" />
+              </button>
+              <button
+                onClick={onOpenQr}
+                className="inline-flex items-center gap-2 px-5 py-3.5 rounded-full bg-white/80 hover:bg-white text-stone-900 font-semibold text-sm transition active:scale-95 border border-white shadow-xs cursor-pointer"
+              >
+                <QrCode className="w-4 h-4 text-amber-700" />
+                <span>Поделиться QR</span>
+              </button>
+            </div>
           </div>
 
-          <div className="pt-2 flex flex-wrap items-center gap-3">
-            <button
-              onClick={() => navigateTo('bio')}
-              className="inline-flex items-center gap-2 px-6 py-3.5 rounded-full bg-stone-950 hover:bg-stone-800 text-white font-semibold text-sm transition active:scale-95 shadow-lg shadow-stone-950/15 cursor-pointer"
-            >
-              <span>Начать экскурсию</span>
-              <ArrowUpRight className="w-4 h-4 text-amber-400" />
-            </button>
-            <button
-              onClick={onOpenQr}
-              className="inline-flex items-center gap-2 px-5 py-3.5 rounded-full bg-white/80 hover:bg-white text-stone-900 font-semibold text-sm transition active:scale-95 border border-white shadow-xs cursor-pointer"
-            >
-              <QrCode className="w-4 h-4 text-amber-700" />
-              <span>Поделиться QR</span>
-            </button>
+          <div className="max-w-[260px] mx-auto lg:max-w-none w-full">
+            <div className="relative rounded-[30px] p-2.5 bg-white/75 border border-white shadow-xl shadow-stone-900/10">
+              <div className="relative aspect-[3/4] rounded-[22px] overflow-hidden bg-gradient-to-b from-amber-100 to-stone-200">
+                {!imgError ? (
+                  <img
+                    src="/ventsel.jpg"
+                    alt="Константин Николаевич Вентцель"
+                    onError={() => setImgError(true)}
+                    className="w-full h-full object-cover object-top grayscale contrast-110 sepia-[0.18]"
+                  />
+                ) : (
+                  <div className="w-full h-full flex flex-col items-center justify-center text-center p-4 bg-gradient-to-br from-stone-800 to-stone-950 text-amber-100">
+                    <span className="text-3xl font-serif font-bold text-amber-400">К. Н. В.</span>
+                    <span className="text-xs text-stone-400 mt-2">
+                      Положите файл ventsel.jpg в папку public
+                    </span>
+                  </div>
+                )}
+
+                <div className="absolute inset-x-0 bottom-0 bg-gradient-to-t from-stone-950/85 via-stone-950/40 to-transparent p-4 pt-10 text-white">
+                  <div className="text-[10px] font-bold uppercase tracking-widest text-amber-300">
+                    1857–1947
+                  </div>
+                  <div className="text-sm font-semibold leading-tight mt-0.5">
+                    К. Н. Вентцель
+                  </div>
+                  <div className="text-[11px] text-stone-300 mt-0.5">
+                    Архивный портрет
+                  </div>
+                </div>
+              </div>
+            </div>
           </div>
         </div>
       </div>
