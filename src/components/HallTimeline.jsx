@@ -7,12 +7,14 @@ import {
   ChevronDown,
   ChevronLeft,
   ChevronRight,
-  BookOpen
+  BookOpen,
+  Camera
 } from 'lucide-react';
 import { TIMELINE } from '../data/museumData';
 
 export default function HallTimeline() {
   const [selectedIdx, setSelectedIdx] = useState(0);
+  const [houseImgError, setHouseImgError] = useState(false);
 
   return (
     <div className="space-y-8">
@@ -140,6 +142,44 @@ export default function HallTimeline() {
             </div>
           );
         })}
+      </div>
+
+      <div className="liquid-glass rounded-[32px] p-5 sm:p-7 grid grid-cols-1 md:grid-cols-[1.15fr_1fr] gap-6 items-center">
+        <div className="rounded-[24px] p-2 bg-white/80 border border-white shadow-md">
+          <div className="relative aspect-[4/3] rounded-[18px] overflow-hidden bg-stone-900">
+            {!houseImgError ? (
+              <img
+                src="/house.jpg"
+                alt="Воспитанники школы свободного воспитания"
+                onError={() => setHouseImgError(true)}
+                className="w-full h-full object-cover sepia-[0.15] contrast-105"
+              />
+            ) : (
+              <div className="w-full h-full flex flex-col items-center justify-center text-center p-4 text-amber-100">
+                <Camera className="w-8 h-8 text-amber-400 mb-2" />
+                <span className="text-xs text-stone-300">
+                  Положите файл house.jpg в папку public
+                </span>
+              </div>
+            )}
+          </div>
+        </div>
+
+        <div className="space-y-3">
+          <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-stone-950 text-amber-300 text-[11px] font-bold uppercase tracking-wider">
+            <Camera className="w-3.5 h-3.5" />
+            <span>Архивный фотодокумент</span>
+          </div>
+          <h3 className="text-xl font-bold text-stone-950 leading-snug">
+            Среда свободного труда и общины
+          </h3>
+          <p className="text-sm text-stone-700 leading-relaxed">
+            В экспериментальной общине не было привычных школьных парт, рядов и кафедрального стола учителя. Дети объединялись вокруг общих столов для ручного труда, лепки, рисования и обсуждения дел вместе с воспитателем.
+          </p>
+          <div className="text-xs text-stone-500 pt-1 border-t border-stone-200/70">
+            Фонд истории свободного воспитания • Начало XX века
+          </div>
+        </div>
       </div>
 
       <div className="space-y-3">

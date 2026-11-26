@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Sun, Users, Orbit, BookOpen, ChevronDown, Sparkles, Scale, BookMarked } from 'lucide-react';
+import { Sun, Users, Orbit, BookOpen, ChevronDown, Sparkles, Scale, BookMarked, FileText } from 'lucide-react';
 import { BOOKS, DECLARATION_COMPARE, TERMS_GLOSSARY } from '../data/museumData';
 
 const PILLARS = [
@@ -30,6 +30,7 @@ export default function HallIdeas() {
   const [openBook, setOpenBook] = useState(0);
   const [selectedArticle, setSelectedArticle] = useState(0);
   const [selectedTerm, setSelectedTerm] = useState(0);
+  const [bookImgError, setBookImgError] = useState(false);
 
   return (
     <div className="space-y-8">
@@ -63,6 +64,46 @@ export default function HallIdeas() {
             </div>
           );
         })}
+      </div>
+
+      <div className="liquid-glass rounded-[32px] p-6 sm:p-8 grid grid-cols-1 lg:grid-cols-[210px_1fr] gap-6 items-center">
+        <div className="max-w-[200px] mx-auto lg:max-w-none w-full">
+          <div className="rounded-[24px] p-2 bg-white/85 border border-white shadow-lg">
+            <div className="relative aspect-[3/4.6] rounded-[16px] overflow-hidden bg-amber-100">
+              {!bookImgError ? (
+                <img
+                  src="/book1918.jpg"
+                  alt="К. Н. Вентцель. Отделение школы от государства и Декларация прав ребенка. 1918"
+                  onError={() => setBookImgError(true)}
+                  className="w-full h-full object-cover"
+                />
+              ) : (
+                <div className="w-full h-full flex flex-col items-center justify-center text-center p-3 bg-stone-900 text-amber-100">
+                  <FileText className="w-7 h-7 text-amber-400 mb-2" />
+                  <span className="text-[11px] text-stone-300">
+                    Положите файл book1918.jpg в папку public
+                  </span>
+                </div>
+              )}
+            </div>
+          </div>
+        </div>
+
+        <div className="space-y-3">
+          <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-amber-500/15 text-amber-900 text-[11px] font-bold uppercase tracking-wider">
+            <FileText className="w-3.5 h-3.5" />
+            <span>Раритетное издание • Москва, 1918</span>
+          </div>
+          <h3 className="text-xl sm:text-2xl font-bold text-stone-950 leading-snug">
+            «Отделение школы от государства и Декларация прав ребенка»
+          </h3>
+          <p className="text-sm text-stone-700 leading-relaxed">
+            Выпуск CXIV серии «Библиотека свободного воспитания и образования и защиты детей» под редакцией И. Горбунова-Посадова (Типо-литография Т-ва И. Н. Кушнерев и К°). В этой брошюре Вентцель обосновал полную автономию школы от политической власти и опубликовал 18 статей прав ребенка.
+          </p>
+          <div className="text-xs text-stone-500 pt-1">
+            Экземпляр из фонда педагогической библиотеки (шифр 37с / В 29)
+          </div>
+        </div>
       </div>
 
       <div className="liquid-glass rounded-[32px] p-6 sm:p-8 space-y-5">
